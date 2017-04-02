@@ -19,7 +19,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/visualization.jpg "Visualization"
+[histogram]: ./docs/histogram.png "Histogram"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
 [image4]: ./examples/placeholder.png "Traffic Sign 1"
@@ -44,21 +44,21 @@ You're reading it! and here is a link to my [project code](https://github.com/ud
 
 The code for this step is contained in the second code cell of the IPython notebook.  
 
-I used the pandas library to calculate summary statistics of the traffic
-signs data set:
+I use the basic python built-in method **len()** in order to get the required information. I have also used some numpy functionality. I have used **unique**, to get the number of classes and shape to get the image shape
 
-* The size of training set is ?
-* The size of test set is ?
-* The shape of a traffic sign image is ?
-* The number of unique classes/labels in the data set is ?
+* The size of training set is 278394
+* The size of validation set 6960
+* The size of test set is 12630
+* The shape of a traffic sign image is (32, 32, 3)
+* The number of unique classes/labels in the data set is 43
 
 ####2. Include an exploratory visualization of the dataset and identify where the code is in your code file.
 
 The code for this step is contained in the third code cell of the IPython notebook.  
 
-Here is an exploratory visualization of the data set. It is a bar chart showing how the data ...
+Basically, we need the histogram of the training labels. To obtain this, I use the numpy **histogram** method
 
-![alt text][image1]
+![alt text][histogram]
 
 ###Design and Test a Model Architecture
 
@@ -66,9 +66,14 @@ Here is an exploratory visualization of the data set. It is a bar chart showing 
 
 The code for this step is contained in the fourth code cell of the IPython notebook.
 
-As a first step, I decided to convert the images to grayscale because ...
+The preprocess block consists is two steps:
 
-Here is an example of a traffic sign image before and after grayscaling.
+* First, I convert the image to grayscale, with the **cv2.cvtColor** method.
+* Second, I normalize the data. I remap the data from [0-255] to [0.1-0.9].
+
+I decided this preprocessing process based on the the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks* and the Udacity lessons
+
+[TODO meter una imagen aqui]
 
 ![alt text][image2]
 
@@ -76,11 +81,13 @@ As a last step, I normalized the image data because ...
 
 ####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
 
-The code for splitting the data into training and validation sets is contained in the fifth code cell of the IPython notebook.  
+The code for splitting the data into training and validation sets is contained in the first code cell of the IPython notebook.  
 
-To cross validate my model, I randomly split the training data into a training set and validation set. I did this by ...
+To cross validate my model, I randomly split the training data into a training set and validation set. I did this by **train_test_split** from **sklearn.model_selection**. I split the train test by a 20%.
 
-My final training set had X number of images. My validation set and test set had Y and Z number of images.
+My final training set had 27839 number of images. My validation set and test set had 6960 and 12630 number of images.
+
+[TODO Borrar esto, yo no lo voy a hacer]
 
 The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because ... To add more data to the the data set, I used the following techniques because ... 
 
@@ -93,12 +100,12 @@ The difference between the original data set and the augmented data set is the f
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
 
-The code for my final model is located in the seventh cell of the ipython notebook. 
+The code for my final model is located in the sixth cell of the ipython notebook. 
 
-My final model consisted of the following layers:
+My final model is basically the lent model with some cahnges, consisted of the following layers:
 
 | Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
+|-----------------------|-----------------------------------------------| 
 | Input         		| 32x32x3 RGB image   							| 
 | Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
 | RELU					|												|
