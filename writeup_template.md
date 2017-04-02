@@ -102,7 +102,7 @@ The difference between the original data set and the augmented data set is the f
 
 The code for my final model is located in the sixth cell of the ipython notebook. 
 
-My final model is basically the lent model with some cahnges, consisted of the following layers:
+My final model is basically the lent model with some changes, consisted of the following layers:
 
 | Layer         		|     Description	        					| 
 |-----------------------|-----------------------------------------------| 
@@ -131,9 +131,14 @@ My final model is basically the lent model with some cahnges, consisted of the f
 
 ####4. Describe how, and identify where in your code, you trained your model. The discussion can include the type of optimizer, the batch size, number of epochs and any hyperparameters such as learning rate.
 
-The code for training the model is located in the eigth cell of the ipython notebook. 
+The code for training the model is located in the tenth cell of the ipython notebook. 
 
-To train the model, I used an ....
+To train the model, I used the block given by Udacity in order to complete this project. I have added the keep_prob parameter in order to use dropout
+The hyperparameters I have selected are:
+* Epoch:100
+* Bath size: 128
+* Learning rate: 0.001
+* Dropout probability: 0.5
 
 ####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
