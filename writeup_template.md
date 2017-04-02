@@ -106,13 +106,24 @@ My final model is basically the lent model with some cahnges, consisted of the f
 
 | Layer         		|     Description	        					| 
 |-----------------------|-----------------------------------------------| 
-| Input         		| 32x32x3 RGB image   							| 
-| Convolution 3x3     	| 1x1 stride, same padding, outputs 32x32x64 	|
+| Input         		| 32x32x1 Grayscale image normalized			| 
+| Convolution 5x5     	| 1x1 stride, same padding, outputs 28x28x6 	|
 | RELU					|												|
-| Max pooling	      	| 2x2 stride,  outputs 16x16x64 				|
-| Convolution 3x3	    | etc.      									|
-| Fully connected		| etc.        									|
-| Softmax				| etc.        									|
+| Dropout					|												|
+| Max pooling	      	| 2x2 stride,  outputs 14x14x6 				    |
+| Convolution 5x5	    | 1x1 stride, same padding, outputs 10x10x6 |
+| RELU					|												|
+| Dropout					|												|
+| Max pooling	      	| 2x2 stride,  outputs 5x5x6 				    |
+| Flatten            	| Output 400 				    |
+| Fully connected		| hidden layer size = 200. 						|
+| RELU					|												|
+| Dropout					|												|
+| Fully connected		| hidden layer size = 108. 						|
+| RELU					|												|
+| Dropout					|												|
+| Fully connected		| hidden layer size = 43. 						|
+| Softmax				|       									|
 |						|												|
 |						|												|
  
