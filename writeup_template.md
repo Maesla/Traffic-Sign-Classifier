@@ -20,13 +20,10 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [histogram]: ./docs/histogram.png "Histogram"
+[training_chart]: ./docs/training_chart.png "Training Chart"
 [image2]: ./examples/grayscale.jpg "Grayscaling"
 [image3]: ./examples/random_noise.jpg "Random Noise"
-[image4]: ./examples/placeholder.png "Traffic Sign 1"
-[image5]: ./examples/placeholder.png "Traffic Sign 2"
-[image6]: ./examples/placeholder.png "Traffic Sign 3"
-[image7]: ./examples/placeholder.png "Traffic Sign 4"
-[image8]: ./examples/placeholder.png "Traffic Sign 5"
+
 
 ## Rubric Points
 ###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/481/view) individually and describe how I addressed each point in my implementation.  
@@ -36,7 +33,7 @@ The goals / steps of this project are the following:
 
 ####1. Provide a Writeup / README that includes all the rubric points and how you addressed each one. You can submit your writeup as markdown or pdf. You can use this template as a guide for writing the report. The submission includes the project code.
 
-You're reading it! and here is a link to my [project code](https://github.com/udacity/CarND-Traffic-Sign-Classifier-Project/blob/master/Traffic_Sign_Classifier.ipynb)
+You're reading it! and here is a link to my [project code](https://github.com/Maesla/Traffic-Sign-Classifier/blob/master/Traffic_Sign_Classifier.ipynb)
 
 ###Data Set Summary & Exploration
 
@@ -69,9 +66,9 @@ The code for this step is contained in the fourth code cell of the IPython noteb
 The preprocess block consists is two steps:
 
 * First, I convert the image to grayscale, with the **cv2.cvtColor** method.
-* Second, I normalize the data. I remap the data from [0-255] to [0.1-0.9].
+* Second, I normalize the data. I remap the data from [0-255] to [-1, 1].
 
-I decided this preprocessing process based on the the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks* and the Udacity lessons
+I decided this preprocessing process based on the the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks* and the Udacity lesson *Introducction to Tensor Flow. Chapter 23: Normalized Input and Initial Weights*. I normalize the input because of the float error, and because  we can have a input with zero mean and equal variance.
 
 [TODO meter una imagen aqui]
 
@@ -83,7 +80,7 @@ As a last step, I normalized the image data because ...
 
 The code for splitting the data into training and validation sets is contained in the first code cell of the IPython notebook.  
 
-To cross validate my model, I randomly split the training data into a training set and validation set. I did this by **train_test_split** from **sklearn.model_selection**. I split the train test by a 20%.
+To cross validate my model, I randomly split the training data into a training set and validation set. I did this by **train\_test\_split** from **sklearn.model_selection**. I split the train test by a 20%.
 
 My final training set had 27839 number of images. My validation set and test set had 6960 and 12630 number of images.
 
@@ -134,26 +131,46 @@ My final model is basically the lent model with some changes, consisted of the f
 The code for training the model is located in the tenth cell of the ipython notebook. 
 
 To train the model, I used the block given by Udacity in order to complete this project. I have added the keep_prob parameter in order to use dropout
-The hyperparameters I have selected are:
+I have selected the following hyperparameters:
+
 * Epoch:100
 * Bath size: 128
 * Learning rate: 0.001
 * Dropout probability: 0.5
+
+![alt text][training_chart]
+
+It can be notice that the accuracy reaches 0.95 at the first 10 iterations. Using dropout, the overfitting is avoided.
 
 ####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 0.989
+* validation set accuracy of 0.995 
+* test set accuracy of 0.941
 
-If an iterative approach was chosen:
+(Borrar)If an iterative approach was chosen:
+
+My first architecture was the LeNet architecture. I chose this architecture as starting point, to be sure everything was fine. When I tested that the model learned, I started to tune several things.
+
+The first problem I faced was that the architecture overfitted. The training results were good enough, but then, in the test set, the accuracy was pretty worse. To avoid this, I introduced dropout. The training results was more or less the same but the accuracy for the test set improve considerably.
+
+Then I decided to preprocess the data ans use the suggestion of the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks*. I change a rbg image for a grayscale image (I tried with asweññ with the Y of a YUV color transform, but I did not notice any improvement) and I normalize the values. I changed the input dimension from 3 to 1. 
+
+The last tune I did was increasing the hidden layers dimensions. I increase the dimensions of the hidden layers. I have two hidden layers, like LeNet. The first one has 200 and 108 dimensions each. I got this numbers from the paper. This final tune contributed.
+
+I think the results finally was very good. I get a 0.941 in the test set and a 0.995 in the validation set.
+
 * What was the first architecture that was tried and why was it chosen?
+ * My first architecture was the LeNet architecture. I chose this architecture as starting point, to be sure everything was fine.  
 * What were some problems with the initial architecture?
+ * The first problem I got was that the architecture overfitted. To avoid this, I introduced dropout. Then I decided to preprocess the data an use the suggestion of the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks*, Because of this, I changed several dimensions. I changed the input dimensions, from 3 (rgb) to 1 (grascale) and I increase the dimensions of the hidden layers.
 * How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to over fitting or under fitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
+ * As I said in the previous point, the major change I did was introducing dropout to avoid overfitting. 
 * Which parameters were tuned? How were they adjusted and why?
+* 
 * What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
 
 If a well known architecture was chosen:
@@ -168,41 +185,88 @@ If a well known architecture was chosen:
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+<img src="./predictions/yield-13.png" width="200">
+<img src="./predictions/wild_animals_crossing-31.png" width="200">
+<img src="./predictions/stop-14.png" width="200">
+<img src="./predictions/speed_limit_30-1.png" width="200">
+<img src="./predictions/bumpy_road-22.png" width="200">
 
-The first image might be difficult to classify because ...
+
+
+
+
+I tried to mix very common signals, like yield and stop, with others less common, like bumpy road
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. Identify where in your code predictions were made. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
-The code for making predictions on my final model is located in the tenth cell of the Ipython notebook.
+The code for making predictions on my final model is located in the fifteenth cell of the Ipython notebook.
+
+<img src="./docs/prediction_histogram.png" width="200">
 
 Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Yield      		| Yield   									| 
+| Wild Animals Crossing     			| Wild Animals Crossing										|
+| Stop					| Stop											|
+| 30 km/h	      		| Roundabout mandatory					 				|
+| Bumpy road			| Bumpy Road      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This is less than the test set.
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for making predictions on my final model is located in the 17th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
 
+It is interesting that the sucess images have a softmax index very near to 1, instead of the wrong one, that it prediction is very low (0.38). In the wrong one, the right answer appears in the 4th position.
+
+Clearly the model recognize the shapes very well. Stop and yield are two signals specifically designed to have a unique shape. The net has recognized both nearly with not doubt (1.0 and 0.98). The other two triangular shapes have been recognized too, but with less accuracy, but not too bad (0.81 and 0.74). Finally, the wrong one is the one with lower value (0.38), and with higher followers. In fact, the right prediction is in the top 5 as well. I think the problem with this signal is that it is rounded, and there are so much rounded signals to choose between them.
+
+The first image is a **Yield**
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| 1.0        			| Yield   									| 
+| 0.0     				| Irrelevant 										|
+| 0.0					| Irrelevant											|
+| 0.0	      			| Irrelevant					 				|
+| 0.0				    | Irrelevant      							|
 
 
-For the second image ... 
+The second image is a  **Wild Animals Crossing**
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.81        			| Wild Animals Crossing   									| 
+| 0.14     				| Road Work 										|
+| 0.03					| Dangerous curve to the left											|
+| 0.00	      			| Irrelevant					 				|
+| 0.00				    | Irrelevant      							| 
+
+The second image is a  **Stop**
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.98        			| Stop   									| 
+| 0.00     				| Turn right ahead 										|
+| 0.00					| Irrelevant											|
+| 0.00	      			| Irrelevant					 				|
+| 0.00				    | Irrelevant      		
+
+The second image is a  **30 km/h**
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.38        			| Roundabout mandatory   									| 
+| 0.17     				| Turn right ahead 										|
+| 0.13					| Priority road											|
+| 0.13	      			| Speed limit (30 km/h)					 				|
+| 0.05				    | No passing for vehicles over 3.5 metric tons      		
+
+The second image is a  **Bumpy road**
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.74        			| Bumpy road   									| 
+| 0.18     				| Road work 										|
+| 0.02					| Bicycles crossing											|
+| 0.02	      			| Traffic signals					 				|
+| 0.00				    | Irrelevant      		
