@@ -1,8 +1,6 @@
 #**Traffic Sign Recognition** 
 
-##Writeup Template
 
-###You can use this file as a template for your writeup if you want to submit it as a markdown file, but feel free to use some other method and submit a pdf if you prefer.
 
 ---
 
@@ -66,15 +64,10 @@ The code for this step is contained in the fourth code cell of the IPython noteb
 The preprocess block consists is two steps:
 
 * First, I convert the image to grayscale, with the **cv2.cvtColor** method.
-* Second, I normalize the data. I remap the data from [0-255] to [-1, 1].
+* Second, I normalize the data. I remap the data from [0, 255] to [0.1, 0.9].
 
-I decided this preprocessing process based on the the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks* and the Udacity lesson *Introducction to Tensor Flow. Chapter 23: Normalized Input and Initial Weights*. I normalize the input because of the float error, and because  we can have a input with zero mean and equal variance.
+I decided this preprocessing process based on the the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks* and the Udacity lesson *Introducction to Tensor Flow. Chapter 23: Normalized Input and Initial Weights*. I normalize the input because of the float error. Other normalization formulas has been tested, like (color - 128)/128, but, with exactly the same architecture, the results were much worse.
 
-[TODO meter una imagen aqui]
-
-![alt text][image2]
-
-As a last step, I normalized the image data because ...
 
 ####2. Describe how, and identify where in your code, you set up training, validation and testing data. How much data was in each set? Explain what techniques were used to split the data into these sets. (OPTIONAL: As described in the "Stand Out Suggestions" part of the rubric, if you generated additional data for training, describe why you decided to generate additional data, how you generated the data, identify where in your code, and provide example images of the additional data)
 
@@ -84,15 +77,6 @@ To cross validate my model, I randomly split the training data into a training s
 
 My final training set had 27839 number of images. My validation set and test set had 6960 and 12630 number of images.
 
-[TODO Borrar esto, yo no lo voy a hacer]
-
-The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because ... To add more data to the the data set, I used the following techniques because ... 
-
-Here is an example of an original image and an augmented image:
-
-![alt text][image3]
-
-The difference between the original data set and the augmented data set is the following ... 
 
 
 ####3. Describe, and identify where in your code, what your final model architecture looks like including model type, layers, layer sizes, connectivity, etc.) Consider including a diagram and/or table describing the final model.
@@ -119,10 +103,8 @@ My final model is basically the lent model with some changes, consisted of the f
 | Fully connected		| hidden layer size = 108. 						|
 | RELU					|												|
 | Dropout					|												|
-| Fully connected		| hidden layer size = 43. 						|
+| Fully connected		| output layer size = 43. 						|
 | Softmax				|       									|
-|						|												|
-|						|												|
  
 
 
@@ -140,44 +122,28 @@ I have selected the following hyperparameters:
 
 ![alt text][training_chart]
 
-It can be notice that the accuracy reaches 0.95 at the first 10 iterations. Using dropout, the overfitting is avoided.
+It can be noticed that the accuracy reaches 0.95 at the first 10 iterations. Although there are many epoch after a quite good result, using dropout, the overfitting is avoided.
 
 ####5. Describe the approach taken for finding a solution. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 The code for calculating the accuracy of the model is located in the ninth cell of the Ipython notebook.
 
 My final model results were:
-* training set accuracy of 0.989
-* validation set accuracy of 0.995 
-* test set accuracy of 0.941
 
-(Borrar)If an iterative approach was chosen:
+* Training set accuracy of 0.989
+* Validation set accuracy of 0.995 
+* Test set accuracy of 0.941
 
-My first architecture was the LeNet architecture. I chose this architecture as starting point, to be sure everything was fine. When I tested that the model learned, I started to tune several things.
 
-The first problem I faced was that the architecture overfitted. The training results were good enough, but then, in the test set, the accuracy was pretty worse. To avoid this, I introduced dropout. The training results was more or less the same but the accuracy for the test set improve considerably.
+My first architecture was the LeNet architecture. I chose this architecture as starting point, to be sure everything was correctly configured. When I checked that the model was training, I started to tune several parameters.
 
-Then I decided to preprocess the data ans use the suggestion of the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks*. I change a rbg image for a grayscale image (I tried with asweññ with the Y of a YUV color transform, but I did not notice any improvement) and I normalize the values. I changed the input dimension from 3 to 1. 
+The first problem I faced was that the architecture overfitted. The training results were good enough, but then, in the test set, the accuracy was pretty worse. To avoid this, I introduced dropout. The training results was more or less the same but the accuracy for the test set improved considerably.
 
-The last tune I did was increasing the hidden layers dimensions. I increase the dimensions of the hidden layers. I have two hidden layers, like LeNet. The first one has 200 and 108 dimensions each. I got this numbers from the paper. This final tune contributed.
+Then I decided to preprocess the data using the suggestions of the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks*. I changed a rbg image for a grayscale image (I tried with the Y dimension of a YUV color transformation, but I did not notice any improvement) and I normalized the values. I changed the input dimension from 3 to 1 into the model
 
-I think the results finally was very good. I get a 0.941 in the test set and a 0.995 in the validation set.
+The last tune I did was increasing the hidden layers dimensions. I have two hidden layers, like LeNet. They have 200 and 108 dimensions each. I got this numbers from the paper. This final tune contributed very positively to the final results.
 
-* What was the first architecture that was tried and why was it chosen?
- * My first architecture was the LeNet architecture. I chose this architecture as starting point, to be sure everything was fine.  
-* What were some problems with the initial architecture?
- * The first problem I got was that the architecture overfitted. To avoid this, I introduced dropout. Then I decided to preprocess the data an use the suggestion of the paper *Traffic Sign Recognition with Multi-Scale Convolutional Networks*, Because of this, I changed several dimensions. I changed the input dimensions, from 3 (rgb) to 1 (grascale) and I increase the dimensions of the hidden layers.
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to over fitting or under fitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
- * As I said in the previous point, the major change I did was introducing dropout to avoid overfitting. 
-* Which parameters were tuned? How were they adjusted and why?
-* 
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
-
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
- 
+Finally, thanks to all these all changes, the results were very good. The test accuracy is 0.941 and the validation accuracy is 0.995.
 
 ###Test a Model on New Images
 
@@ -205,6 +171,7 @@ The code for making predictions on my final model is located in the fifteenth ce
 
 Here are the results of the prediction:
 
+
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Yield      		| Yield   									| 
@@ -214,18 +181,19 @@ Here are the results of the prediction:
 | Bumpy road			| Bumpy Road      							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This is less than the test set.
+The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. 
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction and identify where in your code softmax probabilities were outputted. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
 The code for making predictions on my final model is located in the 17th cell of the Ipython notebook.
 
 
-It is interesting that the sucess images have a softmax index very near to 1, instead of the wrong one, that it prediction is very low (0.38). In the wrong one, the right answer appears in the 4th position.
+It is interesting that the sucess images have a softmax index very near to 1, instead of the wrong one, that it s prediction is low (0.38). In the wrong one, the right answer appears in the 4th position.
 
-Clearly the model recognize the shapes very well. Stop and yield are two signals specifically designed to have a unique shape. The net has recognized both nearly with not doubt (1.0 and 0.98). The other two triangular shapes have been recognized too, but with less accuracy, but not too bad (0.81 and 0.74). Finally, the wrong one is the one with lower value (0.38), and with higher followers. In fact, the right prediction is in the top 5 as well. I think the problem with this signal is that it is rounded, and there are so much rounded signals to choose between them.
+Clearly the model recognize the shapes very well. Stop and yield are two signals specifically designed to have a unique shape. The net has recognized both with not doubt (1.0 and 0.98). The other two triangular shapes have been recognized too, but with less accuracy, but still high (0.81 and 0.74). Finally, the wrong one is the one with lower value (0.38), and with higher followers. In fact, the right prediction is in the top 5 as well. I think the problem with this signal is that it is rounded, and there are so much rounded signals to choose between them.
 
 The first image is a **Yield**
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 1.0        			| Yield   									| 
@@ -236,6 +204,7 @@ The first image is a **Yield**
 
 
 The second image is a  **Wild Animals Crossing**
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 0.81        			| Wild Animals Crossing   									| 
@@ -245,6 +214,7 @@ The second image is a  **Wild Animals Crossing**
 | 0.00				    | Irrelevant      							| 
 
 The second image is a  **Stop**
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 0.98        			| Stop   									| 
@@ -254,6 +224,7 @@ The second image is a  **Stop**
 | 0.00				    | Irrelevant      		
 
 The second image is a  **30 km/h**
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 0.38        			| Roundabout mandatory   									| 
@@ -263,6 +234,7 @@ The second image is a  **30 km/h**
 | 0.05				    | No passing for vehicles over 3.5 metric tons      		
 
 The second image is a  **Bumpy road**
+
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | 0.74        			| Bumpy road   									| 
