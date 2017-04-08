@@ -213,7 +213,7 @@ The second image is a  **Wild Animals Crossing**
 | 0.00	      			| Irrelevant					 				|
 | 0.00				    | Irrelevant      							| 
 
-The second image is a  **Stop**
+The third image is a  **Stop**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -223,7 +223,7 @@ The second image is a  **Stop**
 | 0.00	      			| Irrelevant					 				|
 | 0.00				    | Irrelevant      		
 
-The second image is a  **30 km/h**
+The fourth image is a  **30 km/h**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -233,7 +233,7 @@ The second image is a  **30 km/h**
 | 0.13	      			| Speed limit (30 km/h)					 				|
 | 0.05				    | No passing for vehicles over 3.5 metric tons      		
 
-The second image is a  **Bumpy road**
+The fifth image is a  **Bumpy road**
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
